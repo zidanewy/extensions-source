@@ -6,12 +6,10 @@ import eu.kanade.tachiyomi.source.model.Page
 import eu.kanade.tachiyomi.source.model.SChapter
 import eu.kanade.tachiyomi.source.model.SManga
 import eu.kanade.tachiyomi.source.online.HttpSource
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import org.jsoup.Jsoup
-
-import okhttp3.OkHttpClient
-
 
 class TheFragrantFlowerBloomsWithDignity : HttpSource() {
 
@@ -20,15 +18,11 @@ class TheFragrantFlowerBloomsWithDignity : HttpSource() {
     override val lang = "en"
     override val supportsLatest = true
 
-
     override val client: OkHttpClient = network.cloudflareClient
-
 
     // ── Popular manga ─────────────────────────────────────────────────────
 
-    override fun popularMangaRequest(page: Int): Request {
-        return GET("$baseUrl/manga/?page=$page", headers)
-    }
+    override fun popularMangaRequest(page: Int): Request = GET("$baseUrl/manga/?page=$page", headers)
 
     override fun popularMangaParse(response: Response): MangasPage {
         val document = Jsoup.parse(response.body.string())
@@ -45,17 +39,13 @@ class TheFragrantFlowerBloomsWithDignity : HttpSource() {
 
     // ── Latest manga ──────────────────────────────────────────────────────
 
-    override fun latestUpdatesRequest(page: Int): Request {
-        return GET("$baseUrl/manga/?page=$page&order=update", headers)
-    }
+    override fun latestUpdatesRequest(page: Int): Request = GET("$baseUrl/manga/?page=$page&order=update", headers)
 
     override fun latestUpdatesParse(response: Response) = popularMangaParse(response)
 
     // ── Search ────────────────────────────────────────────────────────────
 
-    override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request {
-        return GET("$baseUrl/?s=$query&page=$page", headers)
-    }
+    override fun searchMangaRequest(page: Int, query: String, filters: FilterList): Request = GET("$baseUrl/?s=$query&page=$page", headers)
 
     override fun searchMangaParse(response: Response) = popularMangaParse(response)
 
