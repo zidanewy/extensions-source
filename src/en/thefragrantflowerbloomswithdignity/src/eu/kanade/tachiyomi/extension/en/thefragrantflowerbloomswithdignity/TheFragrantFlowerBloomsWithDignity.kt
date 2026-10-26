@@ -1,5 +1,6 @@
 package eu.kanade.tachiyomi.extension.en.thefragrantflowerbloomswithdignity
 
+import keiyoushi.annotation.Source
 import eu.kanade.tachiyomi.source.model.FilterList
 import eu.kanade.tachiyomi.source.model.MangasPage
 import eu.kanade.tachiyomi.source.model.Page
@@ -11,6 +12,7 @@ import okhttp3.Request
 import okhttp3.Response
 import org.jsoup.Jsoup
 
+@Source
 class TheFragrantFlowerBloomsWithDignity : HttpSource() {
 
     override val name = "The Fragrant Flower Blooms with Dignity"
