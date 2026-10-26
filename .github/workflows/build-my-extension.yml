@@ -1,0 +1,40 @@
+name: Build My Extension
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/en/thefragrantflowerbloomswithdignity/**'
+      - '.github/workflows/build-my-extension.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build extension APK
+        run: ./gradlew :src:en:thefragrantflowerbloomswithdignity:assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: fragrant-flower-extension-apk
+          path: src/en/thefragrantflowerbloomswithdignity/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
